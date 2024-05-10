@@ -15,12 +15,12 @@ To install the project, follow these steps:
    
 ## Endpoints
 This is a list of endpoints used in the project:
-
+```bash
 POST /api/user/create: Endpoint to create a new user.
 DELETE /api/auth/user/delete: Endpoint to delete a user using JWT token.
-POST /api/user/login: Endpoint to log in a user.
+POST /api/user/login: Endpoint to login a user.
 PATCH /api/auth/user/update/:id: Endpoint to update a user by ID.
-
+```
 ## Examples
 Here are some examples of how to use the endpoints:
 
