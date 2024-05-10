@@ -31,19 +31,19 @@ broker.createService({
       urlencoded: { extended: true },
     },
     cors: {
-        origin: "*",
-        methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-        preflightContinue: false,
-        optionsSuccessStatus: 204,
-        allowedHeaders: [
-          "Content-Type",
-          "Authorization",
-          "X-Requested-With",
-          "X-HTTP-Method-Override",
-        ],
-        exposedHeaders: ["X-Total-Count"],
-        credentials: true,
-        maxAge: 3600,
+      origin: "*",
+      methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+      preflightContinue: false,
+      optionsSuccessStatus: 204,
+      allowedHeaders: [
+        "Content-Type",
+        "Authorization",
+        "X-Requested-With",
+        "X-HTTP-Method-Override",
+      ],
+      exposedHeaders: ["X-Total-Count"],
+      credentials: true,
+      maxAge: 3600,
     },
     routes: [
       {
@@ -57,6 +57,7 @@ broker.createService({
       {
         path: "/api/auth",
         aliases: {
+          "GET user/data": "user.data",
           "PATCH user/update/:id": "updateUser.update",
           "DELETE user/delete": "deleteUser.delete",
         },

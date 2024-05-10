@@ -4,7 +4,7 @@ const MongooseDbAdapter = require("moleculer-db-adapter-mongoose");
 module.exports = function (collection, model) {
   return {
     mixins: [DbService],
-    adapter: new MongooseDbAdapter(`${process.env.MONGO_URL}${collection}`, {
+    adapter: new MongooseDbAdapter(`mongodb://localhost:27017/${collection}`, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     }),

@@ -5,22 +5,24 @@ const { MoleculerClientError } = require("moleculer").Errors;
 const { createUserSchema } = require('../utils/joi');
 const jwt = require('jsonwebtoken');
 
-module.exports = ({
+module.exports = {
   name: "user",
   mixins: [DbMixin("crud", User)],
-  settings: {fields: ["name", "email", "_id"]},
+  settings: { fields: ["name", "email", "_id"] },
   actions: {
     async create(ctx) {
-      const {error, value} = createUserSchema.validate(ctx.params);
+      const { error, value } = createUserSchema.validate(ctx.params);
       if (error) {
-        throw new MoleculerClientError(error.details[0].message,422, "", [
-          {message: "Invalid Parameters" },
-        ])
+        throw new MoleculerClientError(error.details[0].message, 422, "", [
+          { message: "Invalid Parameters" },
+        ]);
       }
       const { name, email, password } = value;
-      const emailExists = await User.findOne({ email: email})
-      if (emailExists) { 
-        throw new MoleculerClientError("Email already exists", 500, "", [{ message: "Email already exists"}]);
+      const emailExists = await User.findOne({ email: email });
+      if (emailExists) {
+        throw new MoleculerClientError("Email already exists", 500, "", [
+          { message: "Email already exists" },
+        ]);
       }
 
       const hashPassword = bcrypt.hashSync(password, 10);
@@ -28,13 +30,25 @@ module.exports = ({
       try {
         await user.save();
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-        expiresIn: "1d",
-          });
+          expiresIn: "1d",
+        });
         return { _id: user._id, name: user.name, email: user.email, token };
       } catch (error) {
-        throw new MoleculerClientError("Failed", 500, "", [{ meessage: "Failed to create user"}])
+        throw new MoleculerClientError("Failed", 500, "", [
+          { meessage: "Failed to create user" },
+        ]);
       }
- 
+    },
+
+    async data(ctx) {
+      const { id } = ctx.meta.user;
+      const user = await User.findById(id);
+      if (!user) {
+        throw new MoleculerClientError("User not found.", 404, "", [
+          { message: "User not found" },
+        ]);
+      }
+      return { _id: user._id, name: user.name, email: user.email };
     },
   },
-});
+};
