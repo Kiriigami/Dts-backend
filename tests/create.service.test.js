@@ -20,17 +20,16 @@ describe("UserService", () => {
 
   describe("create action", () => {
     it("should create a new user and return user data with token", async () => {
-      // Mocking the User model
       const mockUser = {
         _id: "user_id",
         name: "Test User",
         email: "test@example.com",
         password: bcrypt.hashSync("password", 10),
       };
-      jest.spyOn(User, "findOne").mockResolvedValueOnce(null); // Mock user not found
-      jest.spyOn(User.prototype, "save").mockResolvedValueOnce(mockUser); // Mock user save
-      jest.spyOn(bcrypt, "hashSync").mockReturnValueOnce(mockUser.password); // Mock bcrypt hashSync
-      jest.spyOn(jwt, "sign").mockReturnValueOnce("mocked_token"); // Mock jwt sign
+      jest.spyOn(User, "findOne").mockResolvedValueOnce(null);
+      jest.spyOn(User.prototype, "save").mockResolvedValueOnce(mockUser);
+      jest.spyOn(bcrypt, "hashSync").mockReturnValueOnce(mockUser.password);
+      jest.spyOn(jwt, "sign").mockReturnValueOnce("mocked_token");
 
       const params = {
         name: "Test User",

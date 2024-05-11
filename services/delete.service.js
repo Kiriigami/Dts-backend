@@ -10,7 +10,6 @@ module.exports = {
     async delete(ctx) {
            const { id } = ctx.meta.user;
            const user = await User.findById(id);
-           console.log(user)
            if (!user) {
              throw new MoleculerClientError("User not found.", 404, "",[{ message: "User not found"}]);
            }
